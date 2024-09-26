@@ -35,7 +35,7 @@ func (s *centOS) Run() error {
 		strings.ToLower(s.definition.Image.Release),
 		s.definition.Image.ArchitectureMapped)
 
-	if s.definition.Image.Release == "9-Stream" {
+	if s.definition.Image.Release == "9-Stream" || s.definition.Image.Release == "7.5.1804" {
 		baseURL = fmt.Sprintf("%s/%s/BaseOS/%s/iso/", s.definition.Source.URL,
 			strings.ToLower(s.definition.Image.Release),
 			s.definition.Image.ArchitectureMapped)
@@ -397,7 +397,7 @@ func (s *centOS) getRelease(URL, release, variant, arch string) (string, error) 
 	releaseFields := strings.Split(release, ".")
 	u := URL + path.Join("/", strings.ToLower(release), "isos", arch)
 
-	if release == "9-Stream" {
+	if release == "9-Stream" || release == "7.5.1804" {
 		u = URL + path.Join("/", strings.ToLower(release), "BaseOS", arch, "iso")
 	}
 
