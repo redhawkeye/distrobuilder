@@ -6,16 +6,16 @@ GOPATH=$(shell go env GOPATH)
 
 .PHONY: default
 default:
-	go env -w GOCACHE=$(shell go env GOCACHE)
-	$(shell go env | grep -v GOENV | sed "s/'//g" > $(shell go env GOENV))
 	gofmt -s -w .
 	go install -v ./...
 	@echo "distrobuilder built successfully"
 
 .PHONY: update-gomod
 update-gomod:
-	go get -t -v -d -u ./...
-	go mod tidy -go=1.22.7
+	go get -t -v -u ./...
+	go mod tidy -go=1.23.0
+	go get toolchain@none
+	@echo "Dependencies updated"
 
 .PHONY: check
 check: default
@@ -78,6 +78,10 @@ doc-lint:
 static-analysis:
 ifeq ($(shell command -v golangci-lint),)
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOPATH)/bin
+endif
+ifeq ($(shell command -v codespell),)
+	echo "Please install codespell"
+	exit 1
 endif
 	$(GOPATH)/bin/golangci-lint run --timeout 5m
 	run-parts $(shell run-parts -V 2> /dev/null 1> /dev/null && echo -n "--exit-on-error --regex '.sh'") test/lint

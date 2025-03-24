@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gopkg.in/antchfx/htmlquery.v1"
+	"github.com/antchfx/htmlquery"
 
 	"github.com/lxc/distrobuilder/shared"
 )
@@ -112,7 +112,7 @@ do
     fi
 done
 
-# generate symblic link to static-zstd
+# generate symbolic link to static-zstd
 ( cd "${PKG_DIR}/sbin/installer" && ln -sf zstd-* zstd )
 
 # Don't call ldconfig
